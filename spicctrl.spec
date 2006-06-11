@@ -1,12 +1,14 @@
 Summary:	Sony Vaio SPIC Control Program
+Summary(pl):	Program do sterowania Sony Vaio SPIC
 Name:		spicctrl
 Version:	1.9
 Release:	1
 License:	GPL
 Group:		Applications/System
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Source0:	http://popies.net/sonypi/%{name}-%{version}.tar.bz2
+# Source0-md5:	775a1959c03e59830303b8320ca379d2
 URL:		http://popies.net/sonypi/
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 This utility allows one to query and set a variety of parameters on
@@ -17,25 +19,40 @@ your Sony Vaio laptop computer, including:
  - Screen brightness
  - Bluetooth device power status
 
+%description -l pl
+To narzêdzie pozwala sprawdzaæ i ustawiaæ ró¿ne parametry laptopa Sony
+Vaio, w tym:
+
+ - stan zasilania AC
+ - stan baterii
+ - jasno¶æ ekranu
+ - stan zasilania urzêdzenia Bluetooth
+
 %prep
 %setup -q
-bzip2 -dc  %{_sourcedir}/%{name}-%{version}.tar.bz2 | tar xvf -
+
 %build
-%{__make}
-%clean
-rm -rf $RPM_BUILD_ROOT
+%{__make} \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags} -Wall -W"
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sbindir}
-install -d $RPM_BUILD_ROOT/%{_mandir}/man1
-install %{_builddir}/%{name}-%{version}/spicctrl $RPM_BUILD_ROOT%{_sbindir}
-install %{_builddir}/%{name}-%{version}/spicctrl.1 $RPM_BUILD_ROOT/%{_mandir}/man1
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1}
+
+install spicctrl $RPM_BUILD_ROOT%{_sbindir}
+install spicctrl.1 $RPM_BUILD_ROOT%{_mandir}/man1
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %post
+# TODO: move to dev
 if [ ! -c /dev/sonypi ]; then
 	rm -f /dev/sonypi
 	mknod /dev/sonypi c 10 250
 fi
+# TODO: use modprobe.d
 if [ -e %{_sysconfdir}/modules.conf ]; then
 grep 'alias char-major-10-250 sonypi' %{_sysconfdir}/modules.conf > /dev/null
 	RETVAL=$?
@@ -52,10 +69,9 @@ echo 'alias char-major-10-250 sonypi' >> %{_sysconfdir}/modprobe.conf
 echo 'options sonypi minor=250' >> %{_sysconfdir}/modprobe.conf
 	fi
 fi
+
 %files
 %defattr(644,root,root,755)
+%doc AUTHORS CHANGES
 %attr(755,root,root) %{_sbindir}/spicctrl
 %{_mandir}/man1/spicctrl.1*
-%doc %attr(644,root,root) AUTHORS
-%doc %attr(444,root,root) LICENSE
-%doc %attr(444,root,root) CHANGES
