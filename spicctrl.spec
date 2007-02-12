@@ -1,5 +1,5 @@
 Summary:	Sony Vaio SPIC Control Program
-Summary(pl):	Program do sterowania Sony Vaio SPIC
+Summary(pl.UTF-8):   Program do sterowania Sony Vaio SPIC
 Name:		spicctrl
 Version:	1.9
 Release:	1
@@ -19,14 +19,14 @@ your Sony Vaio laptop computer, including:
  - Screen brightness
  - Bluetooth device power status
 
-%description -l pl
-To narzêdzie pozwala sprawdzaæ i ustawiaæ ró¿ne parametry laptopa Sony
+%description -l pl.UTF-8
+To narzÄ™dzie pozwala sprawdzaÄ‡ i ustawiaÄ‡ rÃ³Å¼ne parametry laptopa Sony
 Vaio, w tym:
 
  - stan zasilania AC
  - stan baterii
- - jasno¶æ ekranu
- - stan zasilania urzêdzenia Bluetooth
+ - jasnoÅ›Ä‡ ekranu
+ - stan zasilania urzÄ™dzenia Bluetooth
 
 %prep
 %setup -q
