@@ -1,5 +1,5 @@
 Summary:	Sony Vaio SPIC Control Program
-Summary(pl.UTF-8):   Program do sterowania Sony Vaio SPIC
+Summary(pl.UTF-8):	Program do sterowania Sony Vaio SPIC
 Name:		spicctrl
 Version:	1.9
 Release:	1
